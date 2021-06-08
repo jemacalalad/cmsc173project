@@ -41,31 +41,33 @@ function App() {
   }
 
   const [cards, setCards] = useState([
-    {subject: "CMSC137", tasks: []},
-    {subject: "CMSC173", tasks: []},
-    {subject: "CMSC180", tasks: []},
-    {subject: "CMSC190", tasks: []},
-    { subject: "CMSC142", tasks: [] },
-    {subject: "CMSC137", tasks: []},
-    {subject: "CMSC173", tasks: []},
+    {subject: "CMSC 137", tasks: []},
+    {subject: "CMSC 173", tasks: []},
+    {subject: "CMSC 180", tasks: []},
+    {subject: "CMSC 190", tasks: []},
+    {subject: "CMSC 142", tasks: []},
+    {subject: "CMSC 137", tasks: []},
+    {subject: "CMSC 173", tasks: []},
   ]);
 
   return (
-    <div className="px-10 py-7 bg-gray-300 min-h-screen min-w-screen">
-    
+    <div className="px-10 py-7 bg-gray-200 min-h-screen min-w-screen">
       <div className="px-5 py-5">
-        <span className="font-sans font-family: Roboto font-bold text-gray-900 text-5xl">Most Recent</span>
+        <span className="font-sans font-family: Roboto font-bold text-gray-900 text-7xl select-none">App name?</span>
+      </div>
+      <div className="px-5 py-5">
+        <span className="font-sans font-family: Roboto font-bold text-gray-900 text-4xl select-none">Most Recent</span>
       </div>
       <div className="px-5 -mt-4 mb-6">
-        <span className="font-sans font-family: Roboto font-light text-gray-900 text-lg">Go back to what you were working with...</span>
+        <span className="font-sans font-family: Roboto font-light text-gray-900 text-lg select-none">Go back to what you were working with...</span>
       </div>
       {/* grid of cards */}
-      <div className="grid gap-2 grid-cols-4 justify-around">
+      <div className="flex-wrap-reverse grid grid-cols-4 gap-2 justify-around">
         {cards.map(card => (
           <Card subject={card.subject} tasks={card.tasks} click={handleClick}/>
         ))}
       </div>
-      <div className="fixed bottom-12 right-12 rounded-full bg-transparent w-20 h-20">
+      <div className="fixed bottom-12 right-12 rounded-full bg-transparent w-20 h-20 hover:bg-gray-500 transition-all">
         <button className="w-20 h-20 text-5xl" onClick={() => {newCard()}}>
           <img className="w-full h-full" src={plus} alt="add"/>
         </button>
@@ -80,27 +82,27 @@ function App() {
       {isOpen ? (
         <>
           <div
-            className="blur justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none backdrop-filter backdrop-blur"
           >
             <div className="relative w-auto my-6 mx-auto max-w-2xl">
-              <div className="border-0 rounded-xl shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+              <div className="border-0 rounded-xl shadow-lg relative flex flex-col w-full bg-white outline-none">
+                <div className="flex px-5 pt-5 rounded-t outline-none">
                   <h3 className="text-3xl font-sans font-family: Roboto font-bold"> New Pack </h3>
                 </div>
-                <div className="relative p-6 flex-auto">
+                <div className="relative p-6 mt-3 flex-auto">
                 <form onSubmit = {handleSubmit}>
-                    <label className="font-sans my-4 text-blueGray-500 text-lg leading-relaxed">
+                    <label className="select-none font-sans p-5 text-blueGray-500 text-lg leading-relaxed">
                       Pack Name:
-                      <input autoFocus border="hidden" type="text" id = "name" name= "name" placeholder =" Enter pack name"/>
+                      <input autoFocus className="ml-3 p-2 bg-black text-white focus:border-0" type="text" id = "name" name= "name" placeholder =" Enter pack name"/>
                     </label>
-                    <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                    <div className="flex mt-8 justify-end rounded-b">
                       
                       <button
-                        className="font-sans font-family: Roboto text-red-500 background-transparent font-normal uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        className="select-none font-sans font-family: Roboto font-normal text-red-500 text-sm uppercase bg-transparent mr-3 px-6 py-3 rounded-xl ease-linear hover:bg-red-600 hover:font-light hover:text-white focus:outline-none focus:ring focus:border-red-600 transition-all"
                         type="button"
                         onClick={() => setOpen(false)} > Cancel </button>
                       
-                      <input className="font-sans bg-indigo-900 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      <input className="select-none font-sans font-family: Roboto font-bold text-white text-sm uppercase bg-black px-6 py-3 rounded-xl ease-linear shadow outline-none hover:bg-gray-500 hover:shadow-xl focus:outline-none focus:ring focus:border-white transition-all"
                       type="submit" value= "Add Card" />
                     </div>
                   </form>
