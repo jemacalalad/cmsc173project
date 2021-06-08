@@ -23,7 +23,7 @@ function App() {
   //handle the submission of a new card name
   const handleSubmit = (event) =>{
     event.preventDefault();
-    let name = event.target.elements.name?.value;
+    let name = event.target.elements.name?.value.trim();
     //if no name was entered alert the user to enter a name before submitting
     if(name === ""){
       alert("Enter a Card Name");
@@ -32,7 +32,7 @@ function App() {
       let tempCard = {};
       tempCard.subject = name;
       tempCard.tasks= [];
-      setCards(cards => [...cards, tempCard]);
+      setCards(cards => [tempCard, ...cards ]);
       //close the popup form
       setOpen(!isOpen);
     }
