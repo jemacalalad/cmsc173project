@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import "./index.css";
 
 function Card({subject, tasks, click}){
@@ -8,13 +9,17 @@ function Card({subject, tasks, click}){
     let color2;
     do {
         color2 = colorList[Math.floor(Math.random()*colorList.length)];
-    }while(color2 === color);   // so that the gradient bg will not have the same color
+    } while (color2 === color);   // so that the gradient bg will not have the same color
+    
+    // const RouteChange = useHistory();
 
     return(
         // the card
         <div className={`m-5 flex flex-col bg-gradient-to-r from-${color}-300 to-${color2}-300 rounded-xl w-auto`}>
-            <span className="select-none py-5 place-self-center font-sans font-family: Roboto font-bold text-center text-3xl">{subject}</span>
-            <button className={`select-none my-5 px-3 py-2 font-bold text-white place-self-center w-max bg-${color}-500 hover:bg-${color}-700 active:bg-${color}-900 rounded-xl transition-all`} onClick={() => {click(subject)}}>View</button>
+            <span className="select-none py-5 px-5 font-sans font-family: Roboto font-bold text-center text-3xl">{subject}</span>
+            {/* <Link to="./Pomo"> */}
+                <button renderAs='button' className={`select-none mx-5 my-5 px-3 py-2 place-self-center font-family: Roboto font-bold text-white w-max bg-${color}-500 hover:bg-${color}-700 active:bg-${color}-900 rounded-xl transition-all`}>View</button>
+            {/* </Link> */}
         </div>
     );
 }
