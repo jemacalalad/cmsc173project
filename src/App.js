@@ -9,9 +9,25 @@ function App() {
   // experimental feature, don't modify
   const [page, setPage] = useState("home");
 
+
   // experimental feature, don't modify
   const handleClick = (pageValue) => {
     setPage(pageValue);
+  };
+
+  const [isPomo, setPomoState] = useState(false);
+
+  const [pomo, setPomo] = useState("none");
+  const [pomoTasks, setPomoTasks] = useState([]);
+
+  const openPomo = (subject, tasks) => {
+     setPomo(subject);
+     setPomoTasks(tasks);
+     setPomoState(true);
+  }
+
+  const closePomo = () => {
+    setPomoState(false);
   };
 
   //for popUp when adding subject card
@@ -51,6 +67,7 @@ function App() {
     {subject: "CMSC 173", tasks: [{name: "NEW TASK 7"}]},
   ]);
 
+  console.log(isPomo);
   return (
     <BrowserRouter>
       <Switch>
@@ -59,7 +76,11 @@ function App() {
             <div className="px-5 py-5">
               <span className="font-sans font-family: Roboto font-bold text-gray-900 text-7xl select-none">App name?</span>
             </div>
-            <Pomo />
+            {isPomo ? (
+            <Pomo subject = {pomo} task_list = {pomoTasks} backClick = {closePomo}/>
+          ) : null}
+            {!isPomo ? (
+              <>
             <div className="px-5 py-5">
               <span className="font-sans font-family: Roboto font-bold text-gray-900 text-4xl select-none">Most Recent</span>
             </div>
@@ -69,7 +90,8 @@ function App() {
             {/* grid of cards */}
             <div className="flex grid grid-cols-4 gap-2 justify-around">
               {cards.map(card => (
-                <Card subject={card.subject} tasks={card.tasks}/>
+                <Card subject={card.subject} tasks={card.tasks} click = {openPomo}/>
+                
               ))}
             </div>
             <div className="fixed bottom-12 right-12 rounded-full bg-transparent w-20 h-20 hover:bg-gray-500 transition-all">
@@ -84,6 +106,8 @@ function App() {
             {/*
               If the isOpen is true, open the form for adding a new card
             */}
+             </>
+          ) : null}
             {isOpen ? (
               <>
                 <div

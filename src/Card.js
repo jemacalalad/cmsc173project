@@ -18,7 +18,7 @@ function Card({subject, tasks, click}){
         <div className={`m-5 flex flex-col bg-gradient-to-r from-${color}-300 to-${color2}-300 rounded-xl w-auto`}>
             <span className="select-none py-5 px-5 font-sans font-family: Roboto font-bold text-center text-3xl">{subject}</span>
             {/* <Link to="./Pomo"> */}
-                <button renderAs='button' className={`select-none mx-5 my-5 px-3 py-2 place-self-center font-family: Roboto font-bold text-white w-max bg-${color}-500 hover:bg-${color}-700 active:bg-${color}-900 rounded-xl transition-all`}>View</button>
+                <button renderAs='button' className={`select-none mx-5 my-5 px-3 py-2 place-self-center font-family: Roboto font-bold text-white w-max bg-${color}-500 hover:bg-${color}-700 active:bg-${color}-900 rounded-xl transition-all`}onClick={() => click(subject,tasks)}>View</button>
             {/* </Link> */}
         </div>
     );
