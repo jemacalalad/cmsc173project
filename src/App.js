@@ -5,21 +5,23 @@ import plus from "./icons/plus.png";
 import Pomo from './Pomo';
 
 function App() {
-  const [cards, setCards] = useState([
-    {subject: "CMSC 137", tasks: [], colors: []},
-    {subject: "CMSC 173", tasks: [], colors: []},
-    {subject: "CMSC 180", tasks: [], colors: []},
-    {subject: "CMSC 190", tasks: [], colors: []},
-    {subject: "CMSC 142", tasks: [], colors: []},
-    {subject: "CMSC 137", tasks: [], colors: []},
-    {subject: "CMSC 173", tasks: [], colors: []},
-  ]);
+  const [cards, setCards] = useState([]);
 
   const [isPomo, setPomoState] = useState(false);
-
   const [pomo, setPomo] = useState({});
   const [pomoTasks, setPomoTasks] = useState([]);
   const [pomoColors, setPomoColors] = useState([]);
+  const [updated, setUpdated] = useState(false);
+
+  
+  const deleteCard = (subject) => {
+      for (var i=0; i<cards.length; i++) {
+          if (cards[i].subject === subject){
+              cards.splice(i,1);
+              setUpdated(true);
+          }
+      }
+  }
 
   const openPomo = (subject, tasks, colors) => {
      setPomo(subject);
@@ -51,10 +53,12 @@ function App() {
       //if name was submitted, create and object and add it to the useState for cards
       let tempCard = {};
       tempCard.subject = name;
-      tempCard.tasks= [];
+      tempCard.tasks = [];
+      tempCard.colors = [];
       setCards(cards => [tempCard, ...cards ]);
       //close the popup form
       setOpen(!isOpen);
+      setUpdated(true);
     }
     
   }
@@ -62,10 +66,8 @@ function App() {
   return (
     <div className="px-10 py-7 bg-gray-200 min-h-screen min-w-screen">
       <div className="px-5 py-5">
-        <span className="font-sans font-family: Roboto font-bold text-gray-900 text-7xl select-none">App name?</span>
+        <span className="font-sans font-family: Roboto font-bold text-gray-900 text-7xl select-none">Pomo Dodoco</span>
       </div>
-      {console.log(isPomo)}
-      {console.log(cards)}
       {isPomo ? (
         <>
           <Pomo subject = {pomo} task_list = {pomoTasks} colors = {pomoColors} backClick = {closePomo}/>
@@ -81,10 +83,11 @@ function App() {
       </div>
       {/* grid of cards */}
       <div className="grid grid-cols-4 gap-2 justify-around">
-        {cards.map(card => (
-          <Card subject={card.subject} tasks={card.tasks} colors={card.colors} click = {openPomo}/>
+        {updated || cards.map(card => (
+          <Card subject={card.subject} tasks={card.tasks} colors={card.colors} click = {openPomo} deleteCard={deleteCard}/>
           
         ))}
+        {updated ? setUpdated(false): ""}
       </div>
       <div className="fixed bottom-12 right-12 rounded-full bg-transparent w-20 h-20 hover:bg-gray-500 transition-all">
         <button className="w-20 h-20 text-5xl" onClick={() => {newCard()}}>

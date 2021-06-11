@@ -1,52 +1,61 @@
 import React, { useState } from "react";
 import Task from "./Task";
+import Timer from "./Timer";
 import plus from "./icons/plus.png";
 import back from "./icons/back.png";
 import "./index.css";
 
 function Pomo({subject, task_list, colors, backClick}) {
+    // initialization of variables and states
+    const initialMinutes = 25;
+    const initialSeconds = 0;
     const [taskOpen, setTaskOpen] = useState(false);
-    const [tasks, setTasks] = useState(task_list)
+    const [updated, setUpdated] = useState(false);
     const [startClicked, setStartClicked] = useState(false);
 
+    // when creating a new task
     const newTask = () => {
         setTaskOpen(!taskOpen);
     }
 
+    // handler when the start button is clicked
+    const handleStartClicked = (startState) => {
+        setStartClicked(startState);
+    }
+
+    // deletes a task
     const deleteTask = (name) => {
-        console.log("CLICKED DELETED")
         for (var i=0; i<task_list.length; i++) {
+            // finds the specific task in the array
             if (task_list[i].name === name){
                 if(startClicked){
-                    console.log("CHANGED COLOR");
-                    task_list[i].color = "gray"
+                    // if the timer is running, do not delete yet
+                    task_list[i].taskColor = "gray"
                 }else{
-                    console.log("TASK DELETED");
+                    // if the timer is not running, remove from the array
                     task_list.splice(i,1);
                 }
-                setTasks(task_list);
-             }
+                // update the state
+                setUpdated(true);
+            }
         }
     }
 
-    const handleStartClick = (event) => {
-        event.stopPropagation();
-        startClicked ? setStartClicked(false) : setStartClicked(true);
-    }
-
+    // for the addition of task
     const handleTaskSubmit = (event) =>{
         event.stopPropagation();
         event.preventDefault();
         let task = event.target.elements.name?.value.trim();
         //if no name was entered alert the user to enter a name before submitting
         if(task === ""){
-        alert("Enter a Task");
+            alert("Enter a Task");
         }else{
             //if name was submitted, create and object and add it to the useState for cards
             let tempTask = {};
             tempTask.name = task;
             tempTask.taskColor = colors[1];
             task_list.push(tempTask);
+            setUpdated(true);
             //close the popup form
             setTaskOpen(!taskOpen);
         }
@@ -56,6 +65,7 @@ function Pomo({subject, task_list, colors, backClick}) {
         return(
             <div className={`min-w-screen min-h-screen bg-gradient-to-r from-${colors[0]}-300 to-${colors[1]}-300 rounded-md`}>
                 <div className="py-6 px-7">
+                    {/* back button */}
                     <div className="rounded-full bg-transparent w-12 h-12 hover:bg-gray-200 active:bg-gray-600 transition-all">
                         <button className="w-12 h-12" onClick={backClick}>
                             <img className="w-full h-full" src={back} alt="back"/>
@@ -63,35 +73,39 @@ function Pomo({subject, task_list, colors, backClick}) {
                     </div>
                 </div>
                 <div className="px-6 py-3">
+                    {/* title */}
                     <span className="font-sans font-family: Roboto font-bold text-gray-900 text-5xl select-none">{subject}</span>
                 </div>
                 <div className="mt-10 flex flex-row justify-evenly">
-                    <div className={`flex flex-col rounded-2xl w-1/3 max-h-96 bg-${colors[1]}-400 justify-evenly`}>
+                    {/* the pomo timer section */}
+                    <div className={`flex flex-col rounded-2xl w-1/3 h-96 bg-${colors[1]}-400 justify-evenly`}>
                         <div className="p-3 h-1/5 text-center">
                             <span className="font-sans font-family: Roboto font-bold text-gray-900 text-2xl select-none">Timer</span>
                         </div>
-                        <div className="p-3 h-1/2 text-center place-content-center">
-                            <span className="font-sans font-family: Roboto font-light text-gray-900 text-9xl select-none">00:00</span>
+                        <div className="p-3 h-full text-center flex-col place-items-center">
+                            <Timer initialMinutes={initialMinutes} initialSeconds={initialSeconds} color={colors[0]} handleStartClicked={handleStartClicked}/>
                         </div>
-                        <button className={`rounded-xl mt-5 p-2 mr-7 mb-3 bg-${colors[0]}-600 w-20 self-end font-sans font-semibold text-white hover:bg-${colors[0]}-500 active:bg-${colors[0]}-700 transition-all place-self-center`} onClick={handleStartClick}>{startClicked ? "PAUSE" : "START"}</button>
                     </div>
-                    <div className="rounded-xl px-7 pt-7 pb-3 w-7/12 max-h-96 place-content-start">
-                        <span className="font-sans font-family: Roboto font-bold text-gray-900 text-2xl select-none">Tasks</span>
-                        
-                            {subject !== "none" ? (
-                            <div className="overflow-auto">
-                                {tasks.map((task, key) => (
-                                    <Task key={key} name={task.name} color={task.taskColor} deleteTask={deleteTask}/>
-                                ))}
-                            </div>
+                    <div className="flex-col rounded-xl px-7 w-7/12 h-96 overflow-y-scroll">
+                        {/* the tasks section */}
+                        <div className={`sticky top-0 p-3 w-full h-max rounded-md bg-${colors[0]}-600 font-sans font-family: Roboto font-bold text-white text-2xl`}>Tasks</div>
+                        {subject !== "none" ? (
+                        <div className="px-2">
+                            { updated || task_list.map((task, key) => (
+                                <Task key={key} name={task.name} color={task.taskColor} deleteTask={deleteTask}/>
+                            ))}
+                            { updated ? setUpdated(false): ""}
+                        </div>
                          ) : null}
                     </div>
                 </div>
+                {/* add a task */}
                 <div className="fixed bottom-12 right-12 rounded-full bg-transparent w-20 h-20 hover:bg-gray-200 active:bg-gray-600 transition-all">
                     <button className="w-20 h-20 text-5xl" onClick={startClicked ? () => alert("Timer has started!") : newTask}>
                         <img className="w-full h-full" src={plus} alt="add"/>
                     </button>
                 </div>
+                {/* if the task popup is open */}
                 {taskOpen ? (
                     <>
                         <div
