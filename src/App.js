@@ -57,7 +57,7 @@ function App() {
       tempCard.tasks= [];
       setCards(cards => [tempCard, ...cards ]);
       //close the popup form
-      setOpen(!taskOpen);
+      setOpen(!isOpen);
     }
     
   }
