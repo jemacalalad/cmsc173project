@@ -5,6 +5,7 @@ import plus from "./icons/plus.png";
 import Pomo from './Pomo';
 
 function App() {
+  // initialization of states
   const [cards, setCards] = useState([]);
   const [isPomo, setPomoState] = useState(false);
   const [pomo, setPomo] = useState({});
@@ -12,6 +13,7 @@ function App() {
   const [pomoColors, setPomoColors] = useState([]);
   const [updated, setUpdated] = useState(false);
 
+  // delete a card from the list
   const deleteCard = (subject) => {
     for (var i=0; i<cards.length; i++) {
       if (cards[i].subject === subject){
@@ -21,6 +23,7 @@ function App() {
     }
   }
 
+  // launch the pomo
   const openPomo = (subject, tasks, colors) => {
      setPomo(subject);
      setPomoTasks(tasks);
@@ -28,6 +31,7 @@ function App() {
      setPomoState(true);
   }
 
+  // close the pomo
   const closePomo = () => {
     setPomoState(false);
   };
@@ -63,11 +67,13 @@ function App() {
 
   return (
     <div className="px-10 py-7 bg-gray-200 min-h-screen min-w-screen">
+      {/* check if the pomo is activated */}
       {isPomo ? (
         <>
           <Pomo subject={pomo} task_list={pomoTasks} colors={pomoColors} backClick={closePomo} />
         </>
       ) : null}
+      {/* if not, show the home page / list of cards */}
       {!isPomo ? (
         <>
           <div className="px-5 py-5">
@@ -99,6 +105,7 @@ function App() {
           </div>
         </>
       ) : null}
+      {/* check if the add pack pop-up is activated */}
       {isOpen ? (
         <>
           <div
