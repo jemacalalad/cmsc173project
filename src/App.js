@@ -6,21 +6,19 @@ import Pomo from './Pomo';
 
 function App() {
   const [cards, setCards] = useState([]);
-
   const [isPomo, setPomoState] = useState(false);
   const [pomo, setPomo] = useState({});
   const [pomoTasks, setPomoTasks] = useState([]);
   const [pomoColors, setPomoColors] = useState([]);
   const [updated, setUpdated] = useState(false);
 
-  
   const deleteCard = (subject) => {
-      for (var i=0; i<cards.length; i++) {
-          if (cards[i].subject === subject){
-              cards.splice(i,1);
-              setUpdated(true);
-          }
+    for (var i=0; i<cards.length; i++) {
+      if (cards[i].subject === subject){
+        cards.splice(i,1);
+        setUpdated(true);
       }
+    }
   }
 
   const openPomo = (subject, tasks, colors) => {
@@ -42,6 +40,7 @@ function App() {
     setOpen(!isOpen);
   }
 
+
   //handle the submission of a new card name
   const handleSubmit = (event) =>{
     event.preventDefault();
@@ -60,45 +59,46 @@ function App() {
       setOpen(!isOpen);
       setUpdated(true);
     }
-    
   }
 
   return (
     <div className="px-10 py-7 bg-gray-200 min-h-screen min-w-screen">
-      <div className="px-5 py-5">
-        <span className="font-sans font-family: Roboto font-bold text-gray-900 text-7xl select-none">Pomo Dodoco</span>
-      </div>
       {isPomo ? (
         <>
-          <Pomo subject = {pomo} task_list = {pomoTasks} colors = {pomoColors} backClick = {closePomo}/>
+          <Pomo subject={pomo} task_list={pomoTasks} colors={pomoColors} backClick={closePomo} />
         </>
       ) : null}
       {!isPomo ? (
         <>
-      <div className="px-5 py-5">
-        <span className="font-sans font-family: Roboto font-bold text-gray-900 text-4xl select-none">Most Recent</span>
-      </div>
-      <div className="px-5 -mt-4 mb-6">
-        <span className="font-sans font-family: Roboto font-light text-gray-900 text-lg select-none">Go back to what you were working with...</span>
-      </div>
-      {/* grid of cards */}
-      <div className="grid grid-cols-4 gap-2 justify-around">
-        {updated || cards.map(card => (
-          <Card subject={card.subject} tasks={card.tasks} colors={card.colors} click = {openPomo} deleteCard={deleteCard}/>
-          
-        ))}
-        {updated ? setUpdated(false): ""}
-      </div>
-      <div className="fixed bottom-12 right-12 rounded-full bg-transparent w-20 h-20 hover:bg-gray-500 transition-all">
-        <button className="w-20 h-20 text-5xl" onClick={() => {newCard()}}>
-          <img className="w-full h-full" src={plus} alt="add"/>
-        </button>
-      </div>
-      {/*
-        If the isOpen is true, open the form for adding a new card
-      */}
+          <div className="px-5 py-5">
+            <span className="font-sans font-family: Roboto font-bold text-gray-900 text-7xl select-none">
+              Pomo-Notes
+            </span>
+          </div>
+          <div className="px-5 py-5">
+            <span className="font-sans font-family: Roboto font-bold text-gray-900 text-4xl select-none">
+              Most Recent
+            </span>
+          </div>
+          <div className="px-5 -mt-4 mb-6">
+            <span className="font-sans font-family: Roboto font-light text-gray-900 text-lg select-none">
+              Go back to what you were working with...
+            </span>
+          </div>
+          {/* grid of cards */}
+          <div className="flex grid grid-cols-2 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 gap-2 justify-around">
+            {updated || cards.map(card => (
+              <Card subject={card.subject} tasks={card.tasks} colors={card.colors} click={openPomo} deleteCard={deleteCard}/>
+            ))}
+            {updated ? setUpdated(false): ""}
+          </div>
+          <div className="fixed bottom-12 right-12 rounded-full bg-transparent w-20 h-20 hover:bg-gray-500 ease-in-out transform hover:scale-105 transition-all">
+            <button className="rounded-full w-20 h-20 focus:outline-none focus:ring focus:ring-gray-500" onClick={() => {newCard()}}>
+              <img className="w-full h-full" src={plus} alt="add"/>
+            </button>
+          </div>
         </>
-    ) : null}
+      ) : null}
       {isOpen ? (
         <>
           <div
@@ -132,7 +132,7 @@ function App() {
           </div>
           <div className="opacity-0 fixed inset-0 z-40 bg-black"></div>
         </>
-    ) : null}
+      ) : null}
     </div>
   );
 }

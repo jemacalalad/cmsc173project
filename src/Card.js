@@ -1,9 +1,8 @@
 import React from "react";
-import deleteIcon from "./icons/delete.png";
+import plus from "./icons/plus.png";
 import "./index.css";
 
 function Card({subject, tasks, colors, click, deleteCard}){
-    // list of possbile colors
     const colorList = ["green", "blue", "red", "purple", "yellow", "pink"];
 
     let color, color2;
@@ -21,19 +20,22 @@ function Card({subject, tasks, colors, click, deleteCard}){
         color2 = colors[1];
     }
 
+    console.log(colors)
     return(
         // the card
-        <div className={`m-5 flex flex-col bg-gradient-to-r from-${color}-300 to-${color2}-300 rounded-xl w-auto`}>
-            <div className="rounded-full bg-transparent w-10 h-10 bg-gray-400 hover:bg-gray-200 active:bg-gray-600 transition-all">
+        <div className={`m-5 flex flex-col bg-gradient-to-r from-${color}-300 to-${color2}-300 rounded-xl w-auto shadow-lg`}>
+            <div className="select-none rounded-full bg-transparent mx-3 mt-3 w-7 h-7 hover:bg-red-600 active:bg-gray-600 transition-all">
                 {/* button to delete the card */}
-                <button className="w-10 h-10" onClick={() => deleteCard(subject)}>
-                    <img className="w-full h-full" src={deleteIcon} alt="delete"/>
+                <button className="rounded-full bg-transparent w-7 h-7 transform rotate-45 hover:bg-red-500 transform hover:scale-110 transition duration-250 focus:outline-none focus:ring focus:ring-red-500" onClick={() => deleteCard(subject)}>
+                    <img className="w-full h-full" src={plus} alt="delete"/>
                 </button>
             </div>
-            {/* subject */}
-            <span className="select-none py-5 px-5 font-sans font-family: Roboto font-bold text-center text-3xl">{subject}</span>
-            {/* the View button */}
-            <button renderas='button' className={`select-none mx-5 my-5 px-3 py-2 place-self-center font-family: Roboto font-bold text-white w-max bg-${color}-500 hover:bg-${color}-700 active:bg-${color}-900 rounded-xl transition-all`}onClick={() => click(subject, tasks, colors)}>View</button>
+            <span className="select-none py-5 px-5 font-sans font-family: Roboto font-bold text-center text-3xl">
+                {subject}
+            </span>
+            <button renderAs='button' className={`select-none mx-5 my-5 px-3 py-2 place-self-center font-family: Roboto font-bold text-white w-max bg-${color}-500 hover:bg-${color}-600 active:bg-${color}-700 rounded-xl transition-all shadow-lg hover:shadow-xl ease-in-out transform hover:-translate-y-1 hover:scale-110 active:-translate-y-0.5 active:scale-105 focus:outline-none focus:ring focus:ring-${color}-800`} onClick={() => click(subject, tasks, colors)}>
+                View
+            </button>
         </div>
     );
 }
